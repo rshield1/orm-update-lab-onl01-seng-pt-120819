@@ -49,6 +49,31 @@ class Student
     DB[:conn].execute(sql, self.name, self.grade, self.id)
   end
   
-  
+  def self.create(name, grade)
+    student = Student.new(name, grade)
+    student.save
+  end
+
+  def self.new_from_db(row)
+    id = row[0]
+    name = row[1]
+    grade = row[2]
+    self.new(id, name, grade)
+  end
+
+  def self.find_by_name(name)
+    # find the student in the database given a name
+    # return a new instance of the Student class
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE name = ?
+      LIMIT 1
+    SQL
+
+    DB[:conn].execute(sql,name).map do |row|
+      self.new_from_db(row)
+    end.first
+  end
 
 end
