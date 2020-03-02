@@ -56,9 +56,7 @@ class Student
   end
 
   def self.find_by_name(name)
-    # find the student in the database given a name
-    # return a new instance of the Student class
-    sql = <<-SQL
+        sql = <<-SQL
       SELECT *
       FROM students
       WHERE name = ?
@@ -74,9 +72,5 @@ class Student
     sql = "UPDATE students SET name = ?, grade = ? WHERE id = ?"
     DB[:conn].execute(sql, self.name, self.grade, self.id)
   end
-
-  
-  
-
 
 end
